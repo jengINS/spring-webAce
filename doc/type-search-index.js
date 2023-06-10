@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"ace","l":"ManagementApplication"},{"p":"ace.repo","l":"userRepository"},{"p":"ace.bind","l":"users"},{"p":"ace.service","l":"UserService"},{"p":"ace.service","l":"userServiceLM"},{"p":"ace.rest","l":"WebAppContorler"}];updateSearchResults();
