@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico" />
+
+    <title>A.C.E. Parts Co., Ltd.</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+        integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+    <link rel="stylesheet" href="../static/custom.css">
+    <link rel="stylesheet" href="../static/lib/DataTables/datatables.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.12/pdfobject.min.js"
+        integrity="sha512-lDL6DD6x4foKuSTkRUKIMQJAoisDeojVPXknggl4fZWMr2/M/hMiKLs6sqUvxP/T2zXdrDMbLJ0/ru8QSZrnoQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <style>
+        .list-group-item {
+            /* border: 1px solid rgba(255, 255, 255, 1) !important; */
+        }
+    </style>
+    <script>
+        $(function () {
+            $("#nav-placeholder").load("navbar.html");
+        });
+    </script>
+</head>
+
+<body>
+    <div id="nav-placeholder"></div>
+
+    <div class="container-fluid">
+        <div class="row p-3">
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+                <div class="card bg-dark text-white">
+                    <div class="card-body" style="background-color: rgba(0, 0, 0, 0.3);">
+                        <div class="d-flex flex-column">
+                            <h5><i class="bi bi-clipboard2-check"></i> Project Management</h5>
+                        </div>
+                        <ul class="menu-list flex-grow-1 mt-3 list-unstyled">
+                            <li class="collapsed">
+                                <a class="m-link active" data-bs-toggle="collapse"
+                                    data-bs-target="#dashboard-Components" href="#">
+                                    <i class="icofont-home fs-5"></i> <span>Dashboard</span> <span
+                                        class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                                <!-- Menu: Sub menu ul -->
+                                <ul class="sub-menu collapse show" id="dashboard-Components">
+                                    <li><a class="ms-link" href="projectDetail.html">
+                                            <span>Project Dashboard</span></a></li>
+                                </ul>
+                            </li>
+                            <li class="collapsed">
+                                <a class="m-link" data-bs-toggle="collapse" data-bs-target="#project-Components"
+                                    href="#" aria-expanded="true">
+                                    <i class="icofont-briefcase"></i><span>Projects</span> <span
+                                        class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                                <!-- Menu: Sub menu ul -->
+                                <ul class="sub-menu collapse show" id="project-Components" style="">
+                                    <li><a class="ms-link" href="#"><span>Projects</span></a>
+                                    </li>
+                                    <li><a class="ms-link" href="boq.html"><span>BOQ</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
+                <div class="card w-100 h-100">
+                    <div class="card-body">
+                        <form action="#" method="post">
+                            <div class="row">
+                                <div class="col-6 offset-3">
+                                    <div class="form-row">
+                                        <div class="col">
+                                          <label for="">Description</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                        <div class="col">
+                                          <label for="">Cost</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="col-6 offset-3">
+                                    <div class="form-row">
+                                        <div class="col">
+                                          <label for="">Description</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                        <div class="col">
+                                          <label for="">Cost</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="col-6 offset-3">
+                                    <div class="form-row">
+                                        <div class="col">
+                                          <label for="">Description</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                        <div class="col">
+                                          <label for="">Cost</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="col-6 offset-3">
+                                    <div class="form-row">
+                                        <div class="col">
+                                          <label for="">Description</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                        <div class="col">
+                                          <label for="">Cost</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="col-6 offset-3">
+                                    <div class="form-row">
+                                        <div class="col">
+                                          <label for="">Description</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                        <div class="col">
+                                          <label for="">Cost</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="col-6 offset-3">
+                                    <div class="form-row">
+                                        <div class="col">
+                                          <label for="">Description</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                        <div class="col">
+                                          <label for="">Cost</label>
+                                          <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="col-6 mt-4">
+                                    <button class="btn btn-info btn-block" type="button">เพิ่มแถว</button>
+                                </div>
+                                <div class="col-6 mt-4">
+                                    <button class="btn btn-primary btn-block" type="button" onclick="window.location.href='boq.html'">บันทึก</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/lib/DataTables/datatables.min.js"></script>
+</body>
+
+</html>

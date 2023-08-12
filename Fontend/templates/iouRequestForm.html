@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico" />
+
+  <title>A.C.E. Parts Co., Ltd.</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+  <link  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+  <!-- Bootstrap core CSS -->
+  <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+  <link rel="stylesheet" href="../static/custom.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.12/pdfobject.min.js"
+    integrity="sha512-lDL6DD6x4foKuSTkRUKIMQJAoisDeojVPXknggl4fZWMr2/M/hMiKLs6sqUvxP/T2zXdrDMbLJ0/ru8QSZrnoQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <style>
+    .list-group-item {
+      /* border: 1px solid rgba(255, 255, 255, 1) !important; */
+    }
+  </style>
+  <script>
+    $(function () {
+      $("#nav-placeholder").load("navbar.html");
+      $("#sidenav-placeholder").load("iouSideNav.html");
+    });
+  </script>
+</head>
+
+<body>
+  <div id="nav-placeholder"></div>
+
+  <div class="container-fluid">
+    <div class="row p-3">
+      <div id="sidenav-placeholder" class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+      </div>
+      <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
+        <div class="card w-100 h-100">
+          <div class="card-body">
+            <h3>เบิกค่าใช้จ่าย</h3>
+            <hr>
+            <form>
+              <div class="form-group row">
+                <label class="col-2">Payment Type :</label>
+                <div class="col-6">
+                  <div class="form-check form-check-inline" autocomplete="off">
+                    <input name="payment_type" id="radio_0" type="radio" required="required" class="form-check-input" value="1"
+                      checked="checked">
+                    <label for="radio_0" class="form-check-label">ค่า IOU/ค่า Advance อื่นๆ</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input name="payment_type" id="radio_1" type="radio" required="required" class="form-check-input"
+                      value="2">
+                    <label for="radio_1" class="form-check-label">ค่าบริหารจัดการ Supplier</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input name="payment_type" id="urgent" type="radio" required="required" class="form-check-input"
+                      value="3">
+                    <label for="urgent" class="form-check-label">Urgent</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-2"></label>
+                <div id="request_data_pane" class="col-3">
+                  <label for="requestDate">วันที่เบิก</label>
+                  <div class="d-flex flex-row align-items-center">
+                    <input id="requestDate" name="requestDate" type="text" class="date form-control" required="required">
+                    <label class="date-icon-label" for="txtDate">
+                      <i class="bi bi-calendar"></i>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <label for="requestDate">วันที่จ่าย</label>
+                  <div class="d-flex flex-row align-items-center">
+                    <input id="payDate" name="payDate" type="text" class="date form-control" required="required">
+                    <label class="date-icon-label" for="txtDate">
+                      <i class="bi bi-calendar"></i>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div id="iouCycle_pane" class="form-group row d-none">
+                <label class="col-2"></label> 
+                <div class="col-6">
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input name="iouCycle" id="iouCycle_0" type="checkbox" class="custom-control-input" value="1"> 
+                    <label for="iouCycle_0" class="custom-control-label">ใช้วันจ่ายตามรอบ IOU (วันจ่ายตามรอบ Supplier ตรงกับรอบ IOU)</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mt-5">
+                <label for="projectNo" class="col-2 col-form-label">Project No. :</label>
+                <div class="col-6">
+                  <select id="projectNo" name="projectNo" required="required" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="date" class="col-2 col-form-label">Date</label>
+                <div class="col-3 d-flex flex-row align-items-center">
+                  <input id="date" name="date" type="text" required="required" class="date form-control">
+                  <label class="date-icon-label" for="txtDate">
+                    <i class="bi bi-calendar"></i>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="select1" class="col-2 col-form-label">Type</label>
+                <div class="col-6">
+                  <select id="select1" name="select1" class="form-control" required="required">
+                    <option value="1">ค่าของ</option>
+                    <option value="2">ค่าแรง</option>
+                    <option value="3">MSF</option>
+                    <option value="4">เลี้ยงรับรอง</option>
+                    <option value="5">อื่นๆ (เกี่ยวกับงาน)</option>
+                    <option value="6">ค่าใช้จ่าย รถไฟ</option>
+                    <option value="7">ค่าใช้จ่าย ออฟฟิศ</option>
+                    <option value="8">ค่าใช้จ่าย บัญชี</option>
+                    <option value="9">ค่าใช้จ่าย ธนาคาร</option>
+                    <option value="10">อื่นๆ</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="description" class="col-2 col-form-label">Description</label>
+                <div class="col-6">
+                  <input id="description" name="description" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="amount" class="col-2 col-form-label">Amount</label>
+                <div class="col-6">
+                  <div class="input-group">
+                    <input id="amount" name="amount" type="text" class="form-control">
+                    <div class="input-group-append">
+                      <div class="input-group-text">Baht</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-2"></div>
+                <div class="col-6 checkbox-group-container">
+                  <div class="checkbox-group">
+                    <input id="vat" name="vat" type="checkbox" class="form-check-input">
+                    <label for="vat" class="form-label">VAT</label>
+                  </div>
+                  <div class="checkbox-group">
+                    <input id="wht" name="wht" type="checkbox" class="form-check-input">
+                    <label for="wht" class="form-label">WHT</label>
+                  </div>
+                  <div class="checkbox-group">
+                    <select id="wht_rate" name="wht_rate" class="form-control d-none" required="required">
+                      <option value="1">1%</option>
+                      <option value="3">3%</option>
+                      <option value="5">5%</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div id="subtotal_pane" class="form-group row d-none">
+                <div class="col-2"></div>
+                <div class="col-6">
+                  <label for="subtotal" class="form-label">Sub total</label>
+                  <input id="subtotal" name="subtotal" type="text" class="form-control" readonly>
+                </div>
+              </div>
+              <div id="wht_pane" class="form-group row d-none">
+                <div class="col-2"></div>
+                <div class="col-6">
+                  <label id="wht_label" for="wht_total" class="form-label">WHT</label>
+                  <input id="wht_total" name="wht_total" type="text" class="form-control" readonly>
+                </div>
+              </div>
+              <div id="vat_pane" class="form-group row d-none">
+                <div class="col-2"></div>
+                <div class="col-6">
+                  <label for="vat_total" class="form-label">VAT</label>
+                  <input id="vat_total" name="vat_total" type="text" class="form-control" readonly>
+                </div>
+              </div>
+              <div class="form-group row mt-3">
+                <label for="grandtotal" class="col-2 col-form-label">ยอดที่ต้องโอน</label>
+                <div class="col-6">
+                  <input id="grandtotal" name="grandtotal" type="text" class="form-control" readonly>
+                  <button id="open_detail_btn" type="button" class="btn btn-primary mt-3">Open detail</button>
+                  <button id="close_detail_btn" type="button" class="btn btn-secondary mt-3 d-none">Close detail</button>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-2"></label>
+                <div class="col-6">
+                  <div class="form-check form-check-inline">
+                    <input name="boq_type" id="boq_type_0" type="radio" class="form-check-input" value="1" required="required" checked="checked">
+                    <label for="boq_type_0" class="form-check-label">มี BOQ</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input name="boq_type" id="boq_type_1" type="radio" class="form-check-input" value="2" required="required">
+                    <label for="boq_type_1" class="form-check-label">หัก Supplier</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input name="boq_type" id="boq_type_2" type="radio" class="form-check-input" value="3" required="required">
+                    <label for="boq_type_2" class="form-check-label">ไม่มี BOQ</label>
+                  </div>
+                </div>
+              </div>
+              <div id="boq_type" class="form-group row">
+                <label class="col-2"></label>
+                <div class="col-6">
+                  <div class="form-check form-check-inline">
+                    <input name="type2" id="type2_0" type="radio" class="form-check-input" value="1">
+                    <label for="type2_0" class="form-check-label">ค่าของ</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input name="type2" id="type2_1" type="radio" class="form-check-input" value="2">
+                    <label for="type2_1" class="form-check-label">ค่าแรง</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input name="type2" id="type2_2" type="radio" class="form-check-input" value="3">
+                    <label for="type2_2" class="form-check-label">MSF</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input name="type2" id="type2_3" type="radio" class="form-check-input" value="4">
+                    <label for="type2_3" class="form-check-label">อื่นๆ</label>
+                    <input name="type2_other" id="type2_3_other" type="text" class="form-control" style="margin-left: 8px;">
+                  </div>
+                </div>
+              </div>
+              <div id="issue_report" class="form-group row d-none">
+                <label for="description" class="col-2 col-form-label">Issue report No.</label>
+                <div class="col-6">
+                  <input id="description" name="description" type="text" class="form-control" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="bill" class="col-2 col-form-label">Bill</label>
+                <div class="col-6">
+                  <select id="bill" name="bill" class="form-control" required="required">
+                    <option value=""></option>
+                    <option value="1">มีบิล</option>
+                    <option value="2">ไม่มีบิล</option>
+                    <option value="3">ใบกำกับภาษี</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="paymentMethod" class="col-2 col-form-label">Payment Method</label>
+                <div class="col-6">
+                  <select id="paymentMethod" name="paymentMethod" class="form-control" required="required">
+                    <option value=""></option>
+                    <option value="1">เข้าบัญชี Supplier</option>
+                    <option value="2">เข้าบัญชีผู้เบิก</option>
+                    <option value="3">เข้าบัญชีผู้อื่น</option>
+                    <option value="4">เงินสด</option>
+                    <option value="5">Petty cash</option>
+                  </select>
+                </div>
+              </div>
+              <div id="invoice_no_pane" class="form-group row d-none">
+                <label for="invoice_no" class="col-2 col-form-label">Invoice No.</label>
+                <div class="col-6">
+                  <input id="invoice_no" name="invoice_no" type="text" class="form-control" required="required">
+                </div>
+              </div>
+              <div id="account_name_pane" class="form-group row d-none">
+                <label for="account_name" class="col-2 col-form-label">Name</label>
+                <div class="col-6">
+                  <input id="account_name" name="account_name" type="text" class="form-control" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="paymentMethod" class="col-2 col-form-label">Upload Invoices</label>
+                <div class="col-6">
+                  <input type="file" name="" id="" accept=".jpg, .png" multiple required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="remark" class="col-2 col-form-label">Remark</label>
+                <div class="col-6">
+                  <input id="remark" name="remark" type="text" class="form-control" required="required">
+                </div>
+              </div>
+              <div class="form-group row mt-4">
+                <div class="offset-2 col-6">
+                  <button name="submit" type="submit" class="btn btn-primary">บันทึก</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../static/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let isShowDetail = false;
+    function round2digit(num) {
+      let result = Math.round(num * 1000) / 1000
+      return result
+    }
+    function round(num) {
+      let result = Math.round(num)
+      return result
+    }
+    function calculate() {
+      const total = $('#amount').val();
+      const vat = total * 7 / 107
+      const wht = (total - vat) * $('#wht_rate').val() / 100
+      if ($('#vat').prop('checked')) $('#vat_total').val(round2digit(vat))
+      if ($('#wht').prop('checked')) $('#wht_total').val(round2digit(wht))
+      $('#subtotal').val(round2digit(total - ($('#vat').prop('checked') ? vat : 0)))
+      $('#grandtotal').val(round(total - ($('#wht').prop('checked') ? wht : 0)))
+      $('#wht_label').html('WHT ' + $('#wht_rate').val() + '%')
+    }
+    $(document).ready(() => {
+      $(".date").datepicker({
+        format: "dd M yy",
+        position: 'bottom'
+      });
+      $('#wht').change(() => {
+        if ($('#wht').prop('checked')) $('#wht_rate').removeClass('d-none')
+        else $('#wht_rate').addClass('d-none')
+        calculate()
+        if (isShowDetail) $('#wht_pane').removeClass('d-none')
+      })
+      $('#vat').change(() => {
+        calculate()
+        if (isShowDetail) $('#vat_pane').removeClass('d-none')
+      })
+      $('#wht_rate').change(() => {
+        calculate()
+      })
+      $('input[name=payment_type]').change(() => {
+        if ($('#urgent').prop('checked')){
+          $('#iouCycle_pane').addClass('d-none')
+          $('#request_data_pane').addClass('d-none')
+        }
+        else {
+          $('#request_data_pane').removeClass('d-none')
+          if($('#radio_1').prop('checked'))
+            $('#iouCycle_pane').removeClass('d-none')
+          else
+            $('#iouCycle_pane').addClass('d-none')
+        }
+      })
+      $('input[name=boq_type]').change(() => {
+        if ($('#boq_type_0').prop('checked')) {
+          $('#boq_type').removeClass('d-none')
+          $('#issue_report').addClass('d-none')
+        }
+        if ($('#boq_type_1').prop('checked')) {
+          $('#boq_type').addClass('d-none')
+          $('#issue_report').removeClass('d-none')
+        } 
+        if ($('#boq_type_2').prop('checked')) {
+          $('#boq_type').addClass('d-none')
+          $('#issue_report').addClass('d-none')
+        } 
+      })
+      $('#paymentMethod').change(() => {
+        if ($('#paymentMethod').val() == '1') {
+          $('#invoice_no_pane').removeClass('d-none')
+          $('#account_name_pane').addClass('d-none')
+        } else if ($('#paymentMethod').val() == '3') {
+          $('#invoice_no_pane').addClass('d-none')
+          $('#account_name_pane').removeClass('d-none')
+        } else {
+          $('#invoice_no_pane').addClass('d-none')
+          $('#account_name_pane').addClass('d-none')
+        }
+      })
+      $('#amount').blur(() => calculate())
+      $('#open_detail_btn').click(() => {
+        isShowDetail = true
+        $('#subtotal_pane').removeClass('d-none')
+        if ($('#vat').prop('checked')) $('#vat_pane').removeClass('d-none')
+        if ($('#wht').prop('checked')) $('#wht_pane').removeClass('d-none')
+        $('#open_detail_btn').addClass('d-none')
+        $('#close_detail_btn').removeClass('d-none')
+      })
+      $('#close_detail_btn').click(() => {
+        isShowDetail = false
+        $('#subtotal_pane').addClass('d-none')
+        $('#vat_pane').addClass('d-none')
+        $('#wht_pane').addClass('d-none')
+        $('#open_detail_btn').removeClass('d-none')
+        $('#close_detail_btn').addClass('d-none')
+      })
+    });
+  </script>
+</body>
+
+</html>
